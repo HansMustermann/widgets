@@ -1,0 +1,17 @@
+/**
+* A pie diagram
+*
+* @param unique id for this widget
+* @param series of item/s. More item/s in array form: [ item1 , item2 ]
+* @param series of label/s. More label/s in array form: [ label1 , label2 ]
+* @param color/s for each series e. g. '#f00' for red. More color/s in array form: ['#f00','#fff'] (optional, default: sutiable for design)
+* @param text for headline
+* @param set dataview mode: 'label', 'legend' or 'none' (optional, default: 'legend')
+*/
+{% macro pie(id, item, label, color, text, mode) %}
+
+	<div id="{{ uid(page, id) }}" data-widget="plot.pie" data-item="{{ implode(item) }}"
+		data-label="{{ implode(label) }}" data-color="{{ implode(color) }}" data-text="{{ text|default('') }}" data-mode="{{ mode|default('legend') }}"
+		class="plot"></div>
+
+{% endmacro %}

@@ -1,0 +1,25 @@
+/**
+ * --- W i d g e t s :   G A U G E ---------------------------------------------
+ */
+.gauge {
+	height: 200px;
+	min-width: 200px;
+	margin: 0 auto;
+}
+/* display */
+div.display {
+  text-align: center;
+}
+div.display span.value {
+  color: #CCCCCC;
+  font-size: 25px;
+}
+div.display span.unit {
+  color: #CCCCCC;
+  font-size: 12px;
+}
+.highcharts-data-labels g text {
+	color: grey !important;
+	fill: grey !important;
+	text-shadow: inherit !important;
+}

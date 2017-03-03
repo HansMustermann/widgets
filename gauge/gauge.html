@@ -1,0 +1,62 @@
+/**
+* A solid gauge
+*
+* @param unique id for this widget
+* @param a item for the gauge
+* @param min value
+* @param max value
+* @param unit for the gauge
+* @param text for label
+* @param set mode 'half', 'cshape', 'circle' (optional, default: 'half')
+* @param stop/s for the series e. g. '#f00' for red. More stops/s in array form: [0.1,0.4] (optional)
+* @param color/s for the series e. g. '#f00' for red. More stops/s in array form: ['#f00','#fff'] (optional, default: sutiable for design)
+* @param 
+*/
+{% macro solid(id, item, min, max, unit, label, mode, stop, color) %}
+
+	<div id="{{ uid(page, id) }}" data-widget="plot.gauge-solid" data-item="{{ item }}"
+		data-label="{{ label }}" data-stop="{{ implode(stop) }}" data-color="{{ implode(color) }}" data-min="{{ min|default(0) }}" data-max="{{ max|default(255) }}" data-unit="{{ unit }}" data-mode="{{ mode|default('half') }}"  data-axis="{{ lang('unit', unit) }}"
+		class="gauge"></div>
+
+{% endmacro %}
+
+
+/**
+* A angular gauge
+*
+* @param unique id for this widget
+* @param a item for the gauge
+* @param min value
+* @param max value
+* @param unit for the gauge
+* @param text for label
+* @param set mode 'speedometer', 'scale' (optional, default: 'speedometer')
+* @param color for the series e. g. '#f00' for red.
+* @param 
+*/
+{% macro angular(id, item, min, max, unit, label, mode, color) %}
+
+	<div id="{{ uid(page, id) }}" data-widget="plot.gauge-angular" data-item="{{ item }}"
+		data-label="{{ label|default('') }}" data-min="{{ min|default(0) }}" data-max="{{ max|default(255) }}" data-unit="{{ unit|default('') }}" data-mode="{{ mode|default('') }}" data-axis="{{ lang('unit', unit) }}" data-color="{{ color }}"
+		class="gauge"></div>
+
+{% endmacro %}
+
+
+/**
+* A VU meter gauge
+*
+* @param unique id for this widget
+* @param series of two item/s. The two item/s in array form: [ item1 , item2 ]
+* @param min value (optional, default: 0)
+* @param max value (optional, default: 255)
+* @param text for label
+* @param 
+*/
+{% macro vumeter(id, item, min, max, label) %}
+
+	<div id="{{ uid(page, id) }}" data-widget="plot.gauge-vumeter" data-item="{{ implode(item) }}"
+		data-label="{{ label|default('') }}" data-min="{{ min|default(0) }}" data-max="{{ max|default(255) }}"
+		class="gauge"></div>
+
+{% endmacro %}

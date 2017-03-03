@@ -1,0 +1,32 @@
+/**
+ * --- W i d g e t s :   S T E E L S E R I E S  --------------------------------
+ */
+.steelseries {
+	margin: 0 auto;
+}
+.steelseries.radial {
+	height: 200px;
+	width: 200px;
+}
+.steelseries.linear{
+	height: 140px;
+	width: 320px;
+}
+@media only screen and (orientation: landscape) {   
+	.steelseries.linear{
+		width: calc(100% - 2px);
+		max-width: 320px;
+	}
+}
+.steelseries.linear.vertical{
+	height: 320px;
+	width: 140px;
+}
+.steelseries.display{
+	height: 50px;
+	width: 120px;
+}
+.steelseries.light{
+	height: 50px;
+	width: 50px;
+}

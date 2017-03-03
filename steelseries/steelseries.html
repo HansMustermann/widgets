@@ -1,0 +1,395 @@
+/**
+* A steelseries radial
+*
+* @param unique id for this widget
+* @param a item for the value
+* @param min value
+* @param max value
+* @param unit for the gauge
+* @param text for label
+* @param set mode and direction (only for vertical) in array form: ['radial'], ['bargraph'], ['vertical', 'west'] or ['vertical', 'east'] (optional, default: 'radial')
+* @param set settings in array form: (optional, default: [4, 'DARK_GRAY', 3, 'STEEL', 'STANDARD', 'RED', 1, 'RED'])
+*		 order: [type, backgroundColor, foregroundType, frameDesign, showLcd, lcdColor, showLed, ledColor, pointerType, pointerColor, , showTrend, showMinMaxMeasuredValue, threshold]
+*
+*        type:                     number from 1 to 4
+*        backgroundColor:	   string ( 'DARK_GRAY', 'SATIN_GRAY', 'LIGHT_GRAY', 'WHITE', 'BLACK', 'BEIGE', 'BROWN', 'RED', 'GREEN', 'BLUE', 
+*                                           'ANTHRACITE', 'MUD', 'PUNCHED_SHEET', 'CARBON', 'STAINLESS', 'BRUSHED_METAL', 'BRUSHED_STAINLESS', 'TURNED')
+*        foregroundType:           number from 1 to 5
+*        frameDesign:              string ( 'BLACK_METAL', 'METAL', 'SHINY_METAL', 'BRASS', 'STEEL', 'CHROME', 'GOLD', 'ANTHRACITE', 'TILTED_GRAY',
+*                                           'TILTED_BLACK', 'GLOSSY_METAL')
+*        showLcd:      	           string ( 'true' or 'false'; default: 'false')
+*        lcdColor:                 string ( 'BEIGE', 'BLUE', 'ORANGE', 'RED', 'YELLOW', 'WHITE', 'GRAY', 'BLACK', 'GREEN', 'BLUE2',
+*                                           'BLUE_BLACK', 'BLUE_DARKBLUE', 'BLUE_GRAY', 'STANDARD', 'STANDARD_GREEN', 'BLUE_BLUE',
+*                                          'RED_DARKRED', 'DARKBLUE', 'LILA', 'BLACKRED', 'DARKGREEN', 'AMBER', 'LIGHTBLUE', 'SECTIONS')
+*        showLed:      	           string ( 'true' or 'false'; default: 'false')
+*        ledColor:                 string ( 'RED', 'GREEN', 'BLUE', 'ORANGE', 'YELLOW', 'CYAN', 'MAGENTA')
+*        pointerType:              number from 1 to 16
+*        pointerColor:             string ('RED', 'GREEN', 'BLUE', 'ORANGE', 'YELLOW', 'CYAN', 'MAGENTA', 'WHITE', 'GRAY', 'BLACK', 'RAITH',
+*                                          'GREEN_LCD', 'JUG_GREEN')
+*        showTrend:      	   string ( 'true' or 'false'; default: 'false')
+*        showMinMaxMeasuredValue:  string ( 'true' or 'false'; default: 'false')
+*        threshold:                number between min and max (fixed value for threshold)
+*
+* 		 Example:			       only change pointerColor:    ['', '', '', '', '', '', '', '', '', 'GREEN']
+*
+* @param set section in array form: (optional, default: 'false') - to show standard sections set section to [true], own section: [[start,end,rgbR,rgbG,rgbB,a]]
+*                                   example for own sections [[0,25,0,0,220,0.3],[25,50,0,220,0,0.3],[50,80,220,220,0,0.3]]
+* @param set area in array form:    (optional, default: 'false') - to show standard area set area to [true], own section: [[start,end,rgbR,rgbG,rgbB,a]]
+*                                   example for own areas [[0,10,220,0,0,0.3],[80,100,220,0,0,0.3]]
+*
+*/
+{% macro radial(id, item, min, max, unit, label, mode, settings, section, area) %}
+
+	<canvas id="{{ uid(page, id) }}" data-widget="steel.radial" data-item="{{ item }}"
+		data-min="{{ min|default(0) }}" data-max="{{ max|default(255) }}" data-label="{{ label }}" data-unit="{{ lang('unit', unit) }}" data-mode="{{ implode(mode) }}" data-settings="{{ implode(settings) }}"
+		data-section="{{ section|json_encode() }}" data-area="{{ area|json_encode() }}"
+		class="steelseries radial"></canvas>
+
+{% endmacro %}
+
+/**
+* A steelseries radial with variable threshold
+*
+* @param unique id for this widget
+* @param a item for the value
+* @param a item for the threshold
+* @param min value
+* @param max value
+* @param unit for the gauge
+* @param text for label
+* @param set mode and direction (only for vertical) in array form: ['radial'], ['bargraph'], ['vertical', 'west'] or ['vertical', 'east'] (optional, default: 'radial')
+* @param set settings in array form: (optional, default: [4, 'DARK_GRAY', 3, 'STEEL', 'STANDARD', 'RED', 1, 'RED'])
+*		 order: [type, backgroundColor, foregroundType, frameDesign, showLcd, lcdColor, showLed, ledColor, pointerType, pointerColor, showTrend, showMinMaxMeasuredValue]
+*
+*        type:                     number from 1 to 4
+*        backgroundColor:	   string ( 'DARK_GRAY', 'SATIN_GRAY', 'LIGHT_GRAY', 'WHITE', 'BLACK', 'BEIGE', 'BROWN', 'RED', 'GREEN', 'BLUE', 
+*                                           'ANTHRACITE', 'MUD', 'PUNCHED_SHEET', 'CARBON', 'STAINLESS', 'BRUSHED_METAL', 'BRUSHED_STAINLESS', 'TURNED')
+*        foregroundType:           number from 1 to 5
+*        frameDesign:              string ( 'BLACK_METAL', 'METAL', 'SHINY_METAL', 'BRASS', 'STEEL', 'CHROME', 'GOLD', 'ANTHRACITE', 'TILTED_GRAY',
+*                                           'TILTED_BLACK', 'GLOSSY_METAL')
+*        showLcd:      	           string ( 'true' or 'false'; default: 'false')
+*        lcdColor:                 string ( 'BEIGE', 'BLUE', 'ORANGE', 'RED', 'YELLOW', 'WHITE', 'GRAY', 'BLACK', 'GREEN', 'BLUE2',
+*                                           'BLUE_BLACK', 'BLUE_DARKBLUE', 'BLUE_GRAY', 'STANDARD', 'STANDARD_GREEN', 'BLUE_BLUE',
+*                                          'RED_DARKRED', 'DARKBLUE', 'LILA', 'BLACKRED', 'DARKGREEN', 'AMBER', 'LIGHTBLUE', 'SECTIONS')
+*        showLed:      	           string ( 'true' or 'false'; default: 'false')
+*        ledColor:                 string ( 'RED', 'GREEN', 'BLUE', 'ORANGE', 'YELLOW', 'CYAN', 'MAGENTA')
+*        pointerType:              number from 1 to 16
+*        pointerColor:             string ('RED', 'GREEN', 'BLUE', 'ORANGE', 'YELLOW', 'CYAN', 'MAGENTA', 'WHITE', 'GRAY', 'BLACK', 'RAITH',
+*                                          'GREEN_LCD', 'JUG_GREEN')
+*        showTrend:      	   string ( 'true' or 'false'; default: 'false')
+*        showMinMaxMeasuredValue:  string ( 'true' or 'false'; default: 'false')
+*
+* 		 Example:			       only change pointerColor:     ['', '', '', '', '', '', '', '', '', 'GREEN']
+*
+* @param set section in array form: (optional, default: 'false') - to show standard sections set section to [true], own section: [[start,end,rgbR,rgbG,rgbB,a]]
+*                                   example for own sections [[0,25,0,0,220,0.3],[25,50,0,220,0,0.3],[50,80,220,220,0,0.3]]
+* @param set area in array form:    (optional, default: 'false') - to show standard area set area to [true], own section: [[start,end,rgbR,rgbG,rgbB,a]]
+*                                   example for own areas [[0,10,220,0,0,0.3],[80,100,220,0,0,0.3]]
+*
+*/
+{% macro radial_threshold(id, item_value, item_threshold, min, max, unit, label, mode, settings, section, area) %}
+
+	{% import _self as steel %}
+	{% set item = [item_value]|merge([item_threshold]) %}
+	{{ steel.radial(id, item|join(','), min, max, unit, label, mode, settings, section, area) }}
+
+{% endmacro %}
+
+/**
+* A steelseries radial with variable threshold and Odometer
+*
+* @param unique id for this widget
+* @param a item for the value
+* @param a item for the threshold
+* @param a item for the Odometer
+* @param min value
+* @param max value
+* @param unit for the gauge
+* @param text for label
+* @param set mode and direction (only for vertical) in array form: ['radial'], ['bargraph'], ['vertical', 'west'] or ['vertical', 'east'] (optional, default: 'radial')
+* @param set settings in array form: (optional, default: [4, 'DARK_GRAY', 3, 'STEEL', 'STANDARD', 'RED', 1, 'RED'])
+*		 order: [type, backgroundColor, foregroundType, frameDesign, showLcd, lcdColor, showLed, ledColor, pointerType, pointerColor, showTrend, showMinMaxMeasuredValue, odometerDigits, decimals]
+*
+*        type:                     number from 1 to 4
+*        backgroundColor:	   string ( 'DARK_GRAY', 'SATIN_GRAY', 'LIGHT_GRAY', 'WHITE', 'BLACK', 'BEIGE', 'BROWN', 'RED', 'GREEN', 'BLUE', 
+*                                           'ANTHRACITE', 'MUD', 'PUNCHED_SHEET', 'CARBON', 'STAINLESS', 'BRUSHED_METAL', 'BRUSHED_STAINLESS', 'TURNED')
+*        foregroundType:           number from 1 to 5
+*        frameDesign:              string ( 'BLACK_METAL', 'METAL', 'SHINY_METAL', 'BRASS', 'STEEL', 'CHROME', 'GOLD', 'ANTHRACITE', 'TILTED_GRAY',
+*                                           'TILTED_BLACK', 'GLOSSY_METAL')
+*        showLcd:      	           string ( 'true' or 'false'; default: 'false')
+*        lcdColor:                 string ( 'BEIGE', 'BLUE', 'ORANGE', 'RED', 'YELLOW', 'WHITE', 'GRAY', 'BLACK', 'GREEN', 'BLUE2',
+*                                           'BLUE_BLACK', 'BLUE_DARKBLUE', 'BLUE_GRAY', 'STANDARD', 'STANDARD_GREEN', 'BLUE_BLUE',
+*                                          'RED_DARKRED', 'DARKBLUE', 'LILA', 'BLACKRED', 'DARKGREEN', 'AMBER', 'LIGHTBLUE', 'SECTIONS')
+*        showLed:      	           string ( 'true' or 'false'; default: 'false')
+*        ledColor:                 string ( 'RED', 'GREEN', 'BLUE', 'ORANGE', 'YELLOW', 'CYAN', 'MAGENTA')
+*        pointerType:              number from 1 to 16
+*        pointerColor:             string ('RED', 'GREEN', 'BLUE', 'ORANGE', 'YELLOW', 'CYAN', 'MAGENTA', 'WHITE', 'GRAY', 'BLACK', 'RAITH',
+*                                          'GREEN_LCD', 'JUG_GREEN')
+*        showTrend:      	   string ( 'true' or 'false'; default: 'false')
+*        showMinMaxMeasuredValue:  string ( 'true' or 'false'; default: 'false')
+*        odometerDigits:           number (default: 2)
+*        decimals:                 number (default: 1)
+*
+* 		 Example:			 only change pointerColor:     ['', '', '', '', '', '', '', '', '', 'GREEN']
+*
+* @param set section in array form: (optional, default: 'false') - to show standard sections set section to [true], own section: [[start,end,rgbR,rgbG,rgbB,a]]
+*                                   example for own sections [[0,25,0,0,220,0.3],[25,50,0,220,0,0.3],[50,80,220,220,0,0.3]]
+* @param set area in array form:    (optional, default: 'false') - to show standard area set area to [true], own section: [[start,end,rgbR,rgbG,rgbB,a]]
+*                                   example for own areas [[0,10,220,0,0,0.3],[80,100,220,0,0,0.3]]
+*
+*/
+{% macro radial_odometer(id, item_value, item_threshold, item_odometer, min, max, unit, label, mode, settings, section, area) %}
+
+	{% import _self as steel %}
+	{% set item = [item_value]|merge([item_threshold, item_odometer]) %}
+	{{ steel.radial(id, item|join(','), min, max, unit, label, mode, settings, section, area) }}
+
+{% endmacro %}
+
+/**
+* A steelseries radial with variable threshold and Odometer + min/max measured value  
+*
+* @param unique id for this widget
+* @param a item for the value
+* @param a item for the threshold
+* @param a item for the Odometer
+* @param a item for the min measured value
+* @param a item for the max measured value
+* @param min value
+* @param max value
+* @param unit for the gauge
+* @param text for label
+* @param set mode and direction (only for vertical) in array form: ['radial'], ['bargraph'], ['vertical', 'west'] or ['vertical', 'east'] (optional, default: 'radial')
+* @param set settings in array form: (optional, default: [4, 'DARK_GRAY', 3, 'STEEL', 'STANDARD', 'RED', 1, 'RED'])
+*		 order: [type, backgroundColor, foregroundType, frameDesign, showLcd, lcdColor, showLed, ledColor, pointerType, pointerColor, showTrend, showMinMaxMeasuredValue, odometerDigits, decimals]
+*
+*        type:                     number from 1 to 4
+*        backgroundColor:	       string ( 'DARK_GRAY', 'SATIN_GRAY', 'LIGHT_GRAY', 'WHITE', 'BLACK', 'BEIGE', 'BROWN', 'RED', 'GREEN', 'BLUE', 
+*                                           'ANTHRACITE', 'MUD', 'PUNCHED_SHEET', 'CARBON', 'STAINLESS', 'BRUSHED_METAL', 'BRUSHED_STAINLESS', 'TURNED')
+*        foregroundType:           number from 1 to 5
+*        frameDesign:              string ( 'BLACK_METAL', 'METAL', 'SHINY_METAL', 'BRASS', 'STEEL', 'CHROME', 'GOLD', 'ANTHRACITE', 'TILTED_GRAY',
+*                                           'TILTED_BLACK', 'GLOSSY_METAL')
+*        showLcd:      	           string ( 'true' or 'false'; default: 'false')
+*        lcdColor:                 string ( 'BEIGE', 'BLUE', 'ORANGE', 'RED', 'YELLOW', 'WHITE', 'GRAY', 'BLACK', 'GREEN', 'BLUE2',
+*                                           'BLUE_BLACK', 'BLUE_DARKBLUE', 'BLUE_GRAY', 'STANDARD', 'STANDARD_GREEN', 'BLUE_BLUE',
+*                                          'RED_DARKRED', 'DARKBLUE', 'LILA', 'BLACKRED', 'DARKGREEN', 'AMBER', 'LIGHTBLUE', 'SECTIONS')
+*        showLed:      	           string ( 'true' or 'false'; default: 'false')
+*        ledColor:                 string ( 'RED', 'GREEN', 'BLUE', 'ORANGE', 'YELLOW', 'CYAN', 'MAGENTA')
+*        pointerType:              number from 1 to 16
+*        pointerColor:             string ('RED', 'GREEN', 'BLUE', 'ORANGE', 'YELLOW', 'CYAN', 'MAGENTA', 'WHITE', 'GRAY', 'BLACK', 'RAITH',
+*                                          'GREEN_LCD', 'JUG_GREEN')
+*        showTrend:      	       string ( 'true' or 'false'; default: 'false')
+*        showMinMaxMeasuredValue:  string ( 'true' or 'false'; default: 'false')
+*        odometerDigits      number (default: 2)
+*        decimals            number (default: 1)
+*
+* 		 Example:			 only change pointerColor:    ['', '', '', '', '', '', '', '', '', 'GREEN']
+*
+* @param set section in array form: (optional, default: 'false') - to show standard sections set section to [true], own section: [[start,end,rgbR,rgbG,rgbB,a]]
+*                                   example for own sections [[0,25,0,0,220,0.3],[25,50,0,220,0,0.3],[50,80,220,220,0,0.3]]
+* @param set area in array form:    (optional, default: 'false') - to show standard area set area to [true], own section: [[start,end,rgbR,rgbG,rgbB,a]]
+*                                   example for own areas [[0,10,220,0,0,0.3],[80,100,220,0,0,0.3]]
+*
+*/
+{% macro radial_minmax(id, item_value, item_threshold, item_odometer, item_minMeasured, item_maxMeasured, min, max, unit, label, mode, settings, section, area) %}
+
+	{% import _self as steel %}
+	{% set item = [item_value]|merge([item_threshold, item_odometer, item_minMeasured, item_maxMeasured]) %}
+	{{ steel.radial(id, item|join(','), min, max, unit, label, mode, settings, section, area) }}
+
+{% endmacro %}
+
+/**
+* A steelseries linear
+*
+* @param unique id for this widget
+* @param a item for the value
+* @param a item for the threshold
+* @param min value
+* @param max value
+* @param unit for the gauge
+* @param text for label
+* @param set mode and direction in array form: ['linear'], ['bargraph'], ['linear', 'vertical'] or ['bargraph', 'vertical'] (optional, default: 'linear' and 'horizontal')
+* @param set mode 'linear' or 'bargraph' (optional, default: 'linear')
+* @param set settings in array form: (optional, default: [4, 50, 'DARK_GRAY', 'STEEL', 'STANDARD', 'RED'])
+*		 order: [type, backgroundColor, frameDesign, showLcd, lcdColor, showLed, ledColor, valueColor, valueGradient, threshold]
+*
+*        type:               number from 1 to 2
+*        backgroundColor:    string ( 'DARK_GRAY', 'SATIN_GRAY', 'LIGHT_GRAY', 'WHITE', 'BLACK', 'BEIGE', 'BROWN', 'RED', 'GREEN', 'BLUE', 
+*                                     'ANTHRACITE', 'MUD', 'PUNCHED_SHEET', 'CARBON', 'STAINLESS', 'BRUSHED_METAL', 'BRUSHED_STAINLESS', 'TURNED')
+*        frameDesign:        string ( 'BLACK_METAL', 'METAL', 'SHINY_METAL', 'BRASS', 'STEEL', 'CHROME', 'GOLD', 'ANTHRACITE', 'TILTED_GRAY',
+*                                     'TILTED_BLACK', 'GLOSSY_METAL')
+*        showLcd:      	     string ( 'true' or 'false'; default: 'false')
+*        lcdColor:           string ( 'BEIGE', 'BLUE', 'ORANGE', 'RED', 'YELLOW', 'WHITE', 'GRAY', 'BLACK', 'GREEN', 'BLUE2',
+*                                     'BLUE_BLACK', 'BLUE_DARKBLUE', 'BLUE_GRAY', 'STANDARD', 'STANDARD_GREEN', 'BLUE_BLUE',
+*                                     'RED_DARKRED', 'DARKBLUE', 'LILA', 'BLACKRED', 'DARKGREEN', 'AMBER', 'LIGHTBLUE', 'SECTIONS')
+*        showLed:      	     string ( 'true' or 'false'; default: 'false')
+*        ledColor:           string ( 'RED', 'GREEN', 'BLUE', 'ORANGE', 'YELLOW', 'CYAN', 'MAGENTA')
+*        valueColor:         string ('RED', 'GREEN', 'BLUE', 'ORANGE', 'YELLOW', 'CYAN', 'MAGENTA', 'WHITE', 'GRAY', 'BLACK', 'RAITH',
+*                                    'GREEN_LCD', 'JUG_GREEN')
+*        valueGradient:      string ( 'true' or 'false'; default: 'false')
+*        threshold:          number between min and max (fixed value for threshold)
+*
+* 		 Example:			 only change valueColor:    ['', '', '', '', '', '', '', 'GREEN']
+*
+* @param set section in array form: (optional, default: 'false') - to show standard sections set section to [true], own section: [[start,end,rgbR,rgbG,rgbB,a]]
+*                                   example for own sections [[0,25,0,0,220,0.3],[25,50,0,220,0,0.3],[50,80,220,220,0,0.3]]
+* @param set area in array form:    (optional, default: 'false') - to show standard area set area to [true], own section: [[start,end,rgbR,rgbG,rgbB,a]]
+*                                   example for own areas [[0,10,220,0,0,0.3],[80,100,220,0,0,0.3]]
+*
+*/
+{% macro linear(id, item, min, max, unit, label, mode, settings, section, area) %}
+
+	<canvas id="{{ uid(page, id) }}" data-widget="steel.linear" data-item="{{ item }}"
+		data-label="{{ label }}" data-min="{{ min|default(0) }}" data-max="{{ max|default(255) }}" data-unit="{{ lang('unit', unit) }}" data-mode="{{ implode(mode) }}" data-settings="{{ implode(settings) }}"
+		data-section="{{ section|json_encode() }}" data-area="{{ area|json_encode() }}"
+		class="steelseries linear"></canvas>
+
+{% endmacro %}
+
+/**
+* A steelseries linear with variable threshold
+*
+* @param unique id for this widget
+* @param a item for the value
+* @param a item for the threshold
+* @param min value
+* @param max value
+* @param unit for the gauge
+* @param text for label
+* @param set mode and direction in array form: ['linear'], ['bargraph'], ['linear', 'vertical'] or ['bargraph', 'vertical'] (optional, default: 'linear' and 'horizontal')
+* @param set mode 'linear' or 'bargraph' (optional, default: 'linear')
+* @param set settings in array form: (optional, default: [4, 50, 'DARK_GRAY', 'STEEL', 'STANDARD', 'RED'])
+*		 order: [type, backgroundColor, frameDesign, showLcd, lcdColor, showLed, ledColor, valueColor, valueGradient, threshold]
+*
+*        type:               number from 1 to 2
+*        backgroundColor:    string ( 'DARK_GRAY', 'SATIN_GRAY', 'LIGHT_GRAY', 'WHITE', 'BLACK', 'BEIGE', 'BROWN', 'RED', 'GREEN', 'BLUE', 
+*                                     'ANTHRACITE', 'MUD', 'PUNCHED_SHEET', 'CARBON', 'STAINLESS', 'BRUSHED_METAL', 'BRUSHED_STAINLESS', 'TURNED')
+*        frameDesign:        string ( 'BLACK_METAL', 'METAL', 'SHINY_METAL', 'BRASS', 'STEEL', 'CHROME', 'GOLD', 'ANTHRACITE', 'TILTED_GRAY',
+*                                     'TILTED_BLACK', 'GLOSSY_METAL')
+*        showLcd:      	     string ( 'true' or 'false'; default: 'false')
+*        lcdColor:           string ( 'BEIGE', 'BLUE', 'ORANGE', 'RED', 'YELLOW', 'WHITE', 'GRAY', 'BLACK', 'GREEN', 'BLUE2',
+*                                     'BLUE_BLACK', 'BLUE_DARKBLUE', 'BLUE_GRAY', 'STANDARD', 'STANDARD_GREEN', 'BLUE_BLUE',
+*                                     'RED_DARKRED', 'DARKBLUE', 'LILA', 'BLACKRED', 'DARKGREEN', 'AMBER', 'LIGHTBLUE', 'SECTIONS')
+*        showLed:      	     string ( 'true' or 'false'; default: 'false')
+*        ledColor:           string ( 'RED', 'GREEN', 'BLUE', 'ORANGE', 'YELLOW', 'CYAN', 'MAGENTA')
+*        valueColor:         string ('RED', 'GREEN', 'BLUE', 'ORANGE', 'YELLOW', 'CYAN', 'MAGENTA', 'WHITE', 'GRAY', 'BLACK', 'RAITH',
+*                                    'GREEN_LCD', 'JUG_GREEN')
+*        valueGradient:      string ( 'true' or 'false'; default: 'false')
+*
+* 		 Example:			 only change valueColor:    ['', '', '', '', '', '', '', 'GREEN']
+*
+* @param set section in array form: (optional, default: 'false') - to show standard sections set section to [true], own section: [[start,end,rgbR,rgbG,rgbB,a]]
+*                                   example for own sections [[0,25,0,0,220,0.3],[25,50,0,220,0,0.3],[50,80,220,220,0,0.3]]
+* @param set area in array form:    (optional, default: 'false') - to show standard area set area to [true], own section: [[start,end,rgbR,rgbG,rgbB,a]]
+*                                   example for own areas [[0,10,220,0,0,0.3],[80,100,220,0,0,0.3]]
+*
+*/
+{% macro linear_threshold(id, item_value, item_threshold, min, max, unit, label, mode, settings, section, area) %}
+
+	{% import _self as steel %}
+	{% set item = [item_value]|merge([item_threshold]) %}
+	{{ steel.linear(id, item|join(','), min, max, unit, label, mode, settings, section, area) }}
+	
+{% endmacro %}
+
+/**
+* A steelseries LCD display
+*
+* @param unique id for this widget
+* @param a item for the value
+* @param set mode 'numeric' or 'text' (optional, default: 'numeric')
+* @param set lcdColor (optional, default: 'STANDARD')
+*			 lcdColor: 'BEIGE', 'BLUE', 'ORANGE', 'RED', 'YELLOW', 'WHITE', 'GRAY', 'BLACK', 'GREEN', 'BLUE2', 'BLUE_BLACK', 'BLUE_DARKBLUE', 'BLUE_GRAY',
+*				   'STANDARD', 'STANDARD_GREEN', 'BLUE_BLUE', 'RED_DARKRED', 'DARKBLUE', 'LILA', 'BLACKRED', 'DARKGREEN', 'AMBER', 'LIGHTBLUE', 'SECTIONS'
+*/
+{% macro display(id, item, unit, mode, color) %}
+
+	<canvas id="{{ uid(page, id) }}" data-widget="steel.display" data-item="{{ item }}" data-unit="{{ lang('unit', unit) }}" data-mode="{{ mode }}" data-color="{{ color }}"
+		class="steelseries display"></canvas>
+
+{% endmacro %}
+
+/**
+* A steelseries rgb light bulb with switch function
+*
+* @param unique id for this widget
+* @param a item for the switch
+* @param a item for the r - value (0-255)
+* @param a item for the g - value (0-255)
+* @param a item for the b - value (0-255)
+* @param a item for the a - value (0-255)
+* @param the 'on' state (optional, default 1)
+* @param the 'off' state (optional, default 0)
+*
+*/
+{% macro lightbulb(id, item_switch, item_r, item_g, item_b, item_a, val_on, val_off, min, max) %}
+
+	<canvas id="{{ uid(page, id) }}" data-widget="steel.lightbulb" data-item="{{ item_switch }}, {{ item_r }}, {{ item_g }}, {{ item_b }}, {{ item_a }}"
+		data-switch="{{ item_switch }}" data-val-on="{{ val_on|default('1') }}" data-val-off="{{ val_off|default('0') }}"
+		data-min="{{ min|default('0') }}" data-max="{{ max|default('255') }}"
+		class="steelseries light"></canvas>
+
+{% endmacro %}
+
+/**
+* A steelseries rgb light bulb with switch function and color selector
+*
+* @param unique id for this widget
+* @param a item for the r - value (0-255)
+* @param a item for the g - value (0-255)
+* @param a item for the b - value (0-255)
+* @param a item for the switch
+* @param the 'on' state (optional, default 1)
+* @param the 'off' state (optional, default 0)
+* @param the minimum value if the light is off (optional, for future use)
+* @param the maximum value if the light is full on (optional, default 255)
+* @param the granularity of the rings (optional, default 8)
+* @param the number of colored segments (optional, default 10)
+* @param 'disc' for circular or 'rect' for rectangular view (optional, default: disc)
+*
+*/
+{% macro colorbulb(id, item_r, item_g, item_b, item_switch, val_on, val_off, min, max, steps, colors, style) %}
+	
+	<canvas id="{{ uid(page, id) }}" data-widget="steel.colorbulb" data-style="{{ style|default('disc') }}" 
+		data-item="{{ item_r }}, {{ item_g }}, {{ item_b }}, {{ item_switch }}"
+		data-min="{{ min|default('0') }}" data-max="{{ max|default('255') }}"
+		data-val-on="{{ val_on|default('1') }}" data-val-off="{{ val_off|default('0') }}" data-step="{{ steps|default(7) }}" data-colors="{{ colors|default(10) }}"
+		class="steelseries light"></canvas>
+	
+{% endmacro %}
+
+/**
+* A steelseries led with variable color and switch function
+*
+* @param unique id for this widget
+* @param a item for the actual color value (optional, default: 'red') values: 0=red, 1=green, 2=blue, 3=orange, 4=yellow, 5=cyan, 6=magenta
+* @param a item for the switch
+* @param a list of values to override defaults in array form (optional, default: [0,1,2,3,4,5,6])
+* @param the 'on' state (optional, default 1)
+* @param the 'off' state (optional, default 0)
+*
+*/
+{% macro ledswitch(id, item_color, item_switch, values, val_on, val_off) %}
+	
+	<canvas id="{{ uid(page, id) }}" data-widget="steel.led" data-item="{{ item_color }}, {{ item_switch }}" 
+		data-switch="{{ item_switch }}" data-values="{{ implode(values) }}" data-val-on="{{ val_on|default('1') }}" data-val-off="{{ val_off|default('0') }}"
+		class="steelseries light"></canvas>
+
+{% endmacro %}
+
+/**
+* A steelseries led with variable color
+*
+* @param unique id for this widget
+* @param a item for the actual color value (optional, default: 'red') values: 0=red, 1=green, 2=blue, 3=orange, 4=yellow, 5=cyan, 6=magenta
+* @param a list of values to override defaults in array form (optional, default: [0,1,2,3,4,5,6])
+*
+*/
+{% macro led(id, item, values) %}
+
+	{% import _self as steel %}
+	{{ steel.ledswitch(id, item, '', '', values|default('')) }}
+
+{% endmacro %}
+
