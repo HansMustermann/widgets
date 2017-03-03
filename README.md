@@ -6,6 +6,8 @@ For the gauge widget you have to include **modules/solid-gauge.js** from Highcha
 **!!! Widgets based on Highcharts (diagram and gauge) are now included in smartVisu Version 2.9 develop !!!**
 <br />
 <br />
+<br />
+<br />
 For steelseries widget you have to include **steelseries.js** and **tween.js** from [SteelSeries](https://github.com/HanSolo/SteelSeries-Canvas)
 
 A fixed version of **steelseries.js** with working *radialBargraph* can be found here [Fix](https://github.com/HansMustermann/SteelSeries-Canvas)
